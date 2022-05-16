@@ -6,6 +6,8 @@ export const getInitial = async (
   req: Request,
   h: ResponseToolkit
 ): Promise<ResponseObject> => {
+  console.log("---Initial");
+  console.log(req.auth);
   return h.response("Hello world");
 };
 
@@ -13,7 +15,9 @@ export const getUsers = async (
   req: Request,
   h: ResponseToolkit
 ): Promise<ResponseObject> => {
-    let cliente = await pool.connect();
+  console.log("---getUsers");
+  console.log(req.auth.artifacts.roleName);
+  let cliente = await pool.connect();
   try {
     let query = "SELECT * FROM adm.usuarios";
     const { rows }: QueryResult = await cliente.query(query);
@@ -27,6 +31,6 @@ export const getUsers = async (
       })
       .code(500);
   } finally {
-      cliente.release(true)
+    cliente.release(true);
   }
 };
